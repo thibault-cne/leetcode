@@ -69,11 +69,8 @@ mod tests {
     #[test]
     fn test() {
         assert_eq!(Solution::jump(vec![2, 3, 1, 1, 4]), 2);
-        println!("---");
         assert_eq!(Solution::jump(vec![2, 3, 0, 1, 4]), 2);
-        println!("---");
         assert_eq!(Solution::jump(vec![2, 2, 0, 1, 4]), 3);
-        println!("---");
         assert_eq!(Solution::jump(vec![5, 9, 3, 2, 1, 0, 2, 3, 3, 1, 0, 0]), 3);
     }
 }

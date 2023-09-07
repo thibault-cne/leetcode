@@ -1,4 +1,6 @@
-# Palindrom number
+# 9. Palindrome Number
+
+[link to leetcode problem](https://leetcode.com/problems/palindrome-number/)
 
 Given an integer x, return true if x is a palindrome, and false otherwise.
 

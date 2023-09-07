@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-struct Solution;
+pub struct Solution;
 
 impl Solution {
     pub fn subtract_product_and_sum(n: i32) -> i32 {
@@ -26,7 +26,7 @@ impl Solution {
             }
         }
 
-        if res.len() == 0 {
+        if res.is_empty() {
             res.push_front(0);
         }
 

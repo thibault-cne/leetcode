@@ -2,23 +2,23 @@
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
     pub val: i32,
-    pub next: Option<Box<ListNode>>
+    pub next: Option<Box<ListNode>>,
 }
- 
+
 impl ListNode {
     #[inline]
     fn new(val: i32) -> Self {
-        ListNode {
-            next: None,
-            val
-        }
+        ListNode { next: None, val }
     }
 }
 
-pub struct Solution {}
+pub struct Solution;
 
 impl Solution {
-    pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+    pub fn add_two_numbers(
+        l1: Option<Box<ListNode>>,
+        l2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
         let mut overflow = 0;
         let mut head: Option<Box<ListNode>> = None;
         let mut l1 = l1;
@@ -29,7 +29,7 @@ impl Solution {
                 Some(node) => {
                     l1 = node.next;
                     Some(node.val)
-                },
+                }
                 None => None,
             };
 
@@ -37,7 +37,7 @@ impl Solution {
                 Some(node) => {
                     l2 = node.next;
                     Some(node.val)
-                },
+                }
                 None => None,
             };
 
@@ -45,7 +45,7 @@ impl Solution {
                 (Some(n1), Some(n2)) => n1 + n2 + overflow,
                 (Some(n1), None) => n1 + overflow,
                 (None, Some(n2)) => n2 + overflow,
-                (None, None) => overflow
+                (None, None) => overflow,
             };
 
             if sum == 0 && l1.is_none() && l2.is_none() && head.is_some() {
@@ -61,10 +61,10 @@ impl Solution {
                         tail = &mut n.next;
                     }
                     *tail = Some(Box::new(node));
-                },
+                }
                 None => {
                     head = Some(Box::new(node));
-                },
+                }
             }
 
             overflow = sum / 10;
@@ -78,65 +78,76 @@ impl Solution {
 mod tests {
     use super::*;
 
+    macro_rules! boxed {
+        ($expr:expr) => {
+            Box::new($expr)
+        };
+    }
+
     macro_rules! list {
-        ($($elem:expr),+) => {
-            {
-                let mut head: Option<Box<ListNode>> = None;
-                $(
-                    match head {
-                        Some(ref mut node) => {
-                            let mut tail = &mut node.next;
-                            while let Some(n) = tail {
-                                tail = &mut n.next;
-                            }
-                            *tail = Some(Box::new(ListNode::new($elem)));
-                        },
-                        None => {
-                            head = Some(Box::new(ListNode::new($elem)));
-                        },
-                    }
-                )*
-                head
+        ($head:expr, $($tail:tt)*) => {
+            ListNode {
+                val: $head,
+                next: list!(inner $($tail)*),
             }
+        };
+        ($head:expr) => {
+            ListNode {
+                val: $head,
+                next: None,
+            }
+        };
+        (inner $head:expr, $($tail:tt)*) => {
+            Some(boxed!(ListNode {
+                val: $head,
+                next: list!(inner $($tail)*)
+            }))
+        };
+        (inner $head:expr) => {
+            Some(boxed!(ListNode {
+                val: $head,
+                next: None
+            }))
         };
     }
 
     #[test]
     fn test_macro() {
         let list = list!(1, 2, 3);
-
-        assert_eq!(list, Some(Box::new(ListNode {
+        let expect = ListNode {
             val: 1,
-            next: Some(Box::new(ListNode {
+            next: Some(boxed!(ListNode {
                 val: 2,
-                next: Some(Box::new(ListNode::new(3))),
+                next: Some(boxed!(ListNode { val: 3, next: None }))
             })),
-        })));
+        };
+
+        assert_eq!(list, expect);
     }
 
     #[test]
     fn test_add_two_numbers() {
-        let l1 = list!(2, 4, 3);
-        let l2 = list!(5, 6, 4);
-        let result = list!(7, 0, 8);
+        let l1 = Some(boxed!(list!(2, 4, 3)));
+        let l2 = Some(boxed!(list!(5, 6, 4)));
+        let result = Some(boxed!(list!(7, 0, 8)));
 
         assert_eq!(Solution::add_two_numbers(l1, l2), result);
 
-        let l1 = list!(9,9,9,9,9,9,9);
-        let l2 = list!(9,9,9,9);
-        let result = list!(8,9,9,9,0,0,0,1);
+        let l1 = Some(boxed!(list!(9, 9, 9, 9, 9, 9, 9)));
+        let l2 = Some(boxed!(list!(9, 9, 9, 9)));
+        let result = Some(boxed!(list!(8, 9, 9, 9, 0, 0, 0, 1)));
 
         assert_eq!(Solution::add_two_numbers(l1, l2), result);
 
-        let l1 = list!(9);
-        let l2 = list!(1, 9, 9, 9, 9, 9, 9, 9, 9, 9);
-        let result = list!(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+        let l1 = Some(boxed!(list!(9)));
+        let l2 = Some(boxed!(list!(1, 9, 9, 9, 9, 9, 9, 9, 9, 9)));
+        let result = Some(boxed!(list!(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)));
 
         assert_eq!(Solution::add_two_numbers(l1, l2), result);
 
-        let l1 = list!(0);
-        let l2 = list!(0);
-        let result = list!(0);
+        let l1 = Some(boxed!(list!(0)));
+        let l2 = Some(boxed!(list!(0)));
+        let result = Some(boxed!(list!(0)));
 
         assert_eq!(Solution::add_two_numbers(l1, l2), result);
     }

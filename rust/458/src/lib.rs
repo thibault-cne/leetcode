@@ -18,7 +18,7 @@ mod tests {
         ($(($b:expr, $mtd:expr, $mtt:expr, $e:expr)),*) => {
             $(
                 assert_eq!(Solution::poor_pigs($b, $mtd, $mtt), $e);
-)*
+            )*
         };
     }
 

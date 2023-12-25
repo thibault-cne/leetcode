@@ -9,3 +9,10 @@ tasks:
     cmds:
       - for: { var: FOLDERS }
         cmd: cd {{.ITEM}} && cargo clippy && cd ..
+  test:
+    vars:
+      FOLDERS:
+        sh: ls -d */
+    cmds:
+      - for: { var: FOLDERS }
+        cmd: cd {{.ITEM}} && cargo test && cd ..

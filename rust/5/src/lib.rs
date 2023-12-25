@@ -25,7 +25,7 @@ impl Solution {
     }
 }
 
-fn expand_from_center<'a>(s: &'a str, mut left: isize, mut right: isize) -> &'a str {
+fn expand_from_center(s: &str, mut left: isize, mut right: isize) -> &str {
     let bytes = s.as_bytes();
 
     loop {

@@ -13,15 +13,12 @@ impl Solution {
 
             let mut set = std::collections::HashSet::new();
 
-            match (i, j) {
-                (Some(i), Some(j)) => {
-                    for idx in i + 1..j {
-                        set.insert(slice[idx]);
-                    }
-
-                    ans += set.len();
+            if let (Some(i), Some(j)) = (i, j) {
+                for i in slice.iter().take(j).skip(i + 1) {
+                    set.insert(i);
                 }
-                (_, _) => (),
+
+                ans += set.len();
             }
         }
 

@@ -4,9 +4,9 @@ impl Solution {
     pub fn find_diagonal_order(nums: Vec<Vec<i32>>) -> Vec<i32> {
         let mut ans = Vec::new();
 
-        for i in 0..nums.len() {
-            for j in 0..nums[i].len() {
-                ans.push((i + j, j, nums[i][j]));
+        for (i, v) in nums.iter().enumerate() {
+            for (j, w) in v.iter().enumerate() {
+                ans.push((i + j, j, *w));
             }
         }
 

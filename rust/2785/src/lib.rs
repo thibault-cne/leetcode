@@ -1,3 +1,5 @@
+#![allow(clippy::needless_range_loop)]
+
 pub struct Solution;
 
 impl Solution {

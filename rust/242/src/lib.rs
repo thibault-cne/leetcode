@@ -12,6 +12,6 @@ impl Solution {
         s.sort_unstable();
         t.sort_unstable();
 
-        s.iter().zip(t.iter()).find(|(l, r)| l != r).is_none()
+        !s.iter().zip(t.iter()).any(|(l, r)| l != r)
     }
 }

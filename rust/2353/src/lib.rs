@@ -3,13 +3,13 @@ use std::{
     collections::{BTreeSet, HashMap},
 };
 
-struct FoodRatings {
+pub struct FoodRatings {
     food_to_rating_cuisine: HashMap<String, (i32, String)>,
     cuisine_to_food_rating: HashMap<String, BTreeSet<(i32, Reverse<String>)>>,
 }
 
 impl FoodRatings {
-    fn new(foods: Vec<String>, cuisines: Vec<String>, ratings: Vec<i32>) -> Self {
+    pub fn new(foods: Vec<String>, cuisines: Vec<String>, ratings: Vec<i32>) -> Self {
         let mut food_to_rating_cuisine = HashMap::new();
         let mut cuisine_to_food_rating: HashMap<String, BTreeSet<(i32, Reverse<String>)>> =
             HashMap::new();
@@ -27,7 +27,7 @@ impl FoodRatings {
         }
     }
 
-    fn change_rating(&mut self, food: String, new_rating: i32) {
+    pub fn change_rating(&mut self, food: String, new_rating: i32) {
         let (rating, cuisine) = self.food_to_rating_cuisine.get_mut(&food).unwrap();
         let old_rating = std::mem::replace(rating, new_rating);
 
@@ -36,7 +36,7 @@ impl FoodRatings {
         food_rating_set.insert((new_rating, Reverse(food)));
     }
 
-    fn highest_rated(&self, cuisine: String) -> String {
+    pub fn highest_rated(&self, cuisine: String) -> String {
         self.cuisine_to_food_rating
             .get(&cuisine)
             .unwrap()

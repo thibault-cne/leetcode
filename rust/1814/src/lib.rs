@@ -35,7 +35,7 @@ impl Solution {
                     .parse::<i32>()
                     .unwrap();
                 ans += ((nums[i] + rev_j) == (nums[j] + rev_i)) as i64;
-                ans = ans % Solution::MOD;
+                ans %= Solution::MOD;
             }
         }
 

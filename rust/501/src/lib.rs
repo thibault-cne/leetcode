@@ -50,12 +50,17 @@ impl Solution {
                 *curr_count = 1;
             }
 
-            if *curr_count > *max {
-                *max = *curr_count;
-                modes.clear();
-                modes.push(*curr_value);
-            } else if *curr_count == *max {
-                modes.push(*curr_value);
+            match curr_count.cmp(&max) {
+                std::cmp::Ordering::Greater => {
+                    *max = *curr_count;
+                    modes.clear();
+                    modes.push(*curr_value);
+                },
+                std::cmp::Ordering::Equal => {
+                    modes.push(*curr_value);
+                },
+                _ => {}
+                
             }
 
             Self::in_order_traversal(&x.borrow().right, curr_value, curr_count, max, modes);

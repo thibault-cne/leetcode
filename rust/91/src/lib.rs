@@ -23,14 +23,12 @@ impl Solution {
                 } else {
                     return 0;
                 }
+            } else if is_valid_number(last_digit, c) {
+                let temp = res;
+                res += single_digit_last;
+                single_digit_last = temp;
             } else {
-                if is_valid_number(last_digit, c) {
-                    let temp = res;
-                    res += single_digit_last;
-                    single_digit_last = temp;
-                } else {
-                    single_digit_last = res;
-                }
+                single_digit_last = res;
             }
 
             last_digit = c;

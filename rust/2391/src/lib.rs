@@ -31,22 +31,22 @@ impl Solution {
         let mut last_glass = 0;
         let mut last_paper = 0;
 
-        for i in 0..garbage.len() {
-            ans += match garbage[i].chars().filter(|&c| c == 'M').count() {
+        for (i, v) in garbage.iter().enumerate() {
+            ans += match v.chars().filter(|&c| c == 'M').count() {
                 0 => 0,
                 cpt => {
                     last_metal = i;
                     cpt as i32
                 }
             };
-            ans += match garbage[i].chars().filter(|&c| c == 'G').count() {
+            ans += match v.chars().filter(|&c| c == 'G').count() {
                 0 => 0,
                 cpt => {
                     last_glass = i;
                     cpt as i32
                 }
             };
-            ans += match garbage[i].chars().filter(|&c| c == 'P').count() {
+            ans += match v.chars().filter(|&c| c == 'P').count() {
                 0 => 0,
                 cpt => {
                     last_paper = i;

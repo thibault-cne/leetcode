@@ -14,8 +14,8 @@ impl Solution {
 
             for j in 0..i {
                 if arr[i] % arr[j] == 0 && dp.contains_key(&(arr[i] / arr[j])) {
-                    let left = *dp.get(&arr[j]).unwrap() as i64;
-                    let right = *dp.get(&(arr[i] / arr[j])).unwrap() as i64;
+                    let left = *dp.get(&arr[j]).unwrap();
+                    let right = *dp.get(&(arr[i] / arr[j])).unwrap();
                     dp.entry(arr[i]).and_modify(|v| {
                        *v = (*v + left * right) % MOD;
                     });

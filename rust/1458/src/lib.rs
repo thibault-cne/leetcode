@@ -3,11 +3,11 @@ pub struct Solution;
 impl Solution {
     pub fn max_dot_product(nums1: Vec<i32>, nums2: Vec<i32>) -> i32 {
         let mut dp = vec![vec![i32::MIN; nums2.len() + 1]; nums1.len() + 1];
-        for i in 0..nums1.len() {
-            for j in 0..nums2.len() {
+        for (i, n1) in nums1.iter().enumerate() {
+            for (j, n2) in nums2.iter().enumerate() {
                 dp[i + 1][j + 1] = std::cmp::max(
                     std::cmp::max(dp[i][j + 1], dp[i + 1][j]),
-                    std::cmp::max(0, dp[i][j]) + nums1[i] * nums2[j],
+                    std::cmp::max(0, dp[i][j]) + n1 * n2,
                 );
             }
         }

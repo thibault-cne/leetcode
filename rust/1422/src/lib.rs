@@ -20,7 +20,7 @@ impl Solution {
                 dp[size - (i + 1)] += count.1;
             });
 
-        dp.iter().max().unwrap().clone()
+        *dp.iter().max().unwrap()
     }
 }
 

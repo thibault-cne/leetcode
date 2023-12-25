@@ -25,8 +25,8 @@ impl From<Vec<i32>> for ListNode {
     fn from(vec: Vec<i32>) -> Self {
         let mut head = ListNode::new(vec[0]);
         let mut tail = &mut head;
-        for i in 1..vec.len() {
-            let node = ListNode::new(vec[i]);
+        for i in vec.iter().skip(1) {
+            let node = ListNode::new(*i);
             tail.next = Some(Box::new(node));
             tail = tail.next.as_mut().unwrap();
         }
@@ -63,7 +63,7 @@ mod tests {
         let list_2 = ListNode::from(vec![1, 2, 3, 2, 1]);
         let list_3 = ListNode::from(vec![1, 2, 3, 3, 2, 1]);
         let list_4 = ListNode::from(vec![1, 2]);
-        
+
         assert!(Solution::is_palindrome(Some(Box::new(list))));
         assert!(Solution::is_palindrome(Some(Box::new(list_2))));
         assert!(Solution::is_palindrome(Some(Box::new(list_3))));

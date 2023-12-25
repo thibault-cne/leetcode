@@ -5,7 +5,7 @@ impl Solution {
         paths
             .iter()
             .map(|v| &v[1])
-            .find(|dst| paths.iter().map(|v| &v[0]).find(|src| src == dst).is_none())
+            .find(|dst| !paths.iter().any(|v| v[0].as_str() == dst.as_str()))
             .unwrap()
             .to_string()
     }

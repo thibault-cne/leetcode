@@ -7,7 +7,7 @@ impl Solution {
         (0..n)
             .filter(|&j| mat.iter().map(|row| row[j]).sum::<i32>() == 1)
             .map(|j| mat.iter().position(|row| row[j] == 1).unwrap())
-            .filter(|&i| mat[i].iter().map(|e| *e).sum::<i32>() == 1)
+            .filter(|&i| mat[i].iter().copied().sum::<i32>() == 1)
             .count() as i32
     }
 }

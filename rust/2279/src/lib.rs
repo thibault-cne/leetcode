@@ -8,12 +8,12 @@ impl Solution {
 
         sort.sort_unstable();
 
-        for i in 0..sort.len() {
-            if additional_rocks < sort[i] {
+        for (i, &v) in sort.iter().enumerate() {
+            if additional_rocks < v {
                 return i as i32;
             }
 
-            additional_rocks -= sort[i];
+            additional_rocks -= v;
         }
 
         capacity.len() as i32

@@ -1,3 +1,5 @@
+#![allow(clippy::new_without_default)]
+
 pub struct MyHashMap {
     buckets: Vec<Option<Vec<(i32, i32)>>>,
 }
@@ -7,7 +9,6 @@ const SIZE: usize = 1031;
 const NONE: Option<Vec<(i32, i32)>> = None;
 
 impl MyHashMap {
-    
     pub fn new() -> Self {
         Self {
             buckets: vec![NONE; SIZE],
@@ -23,7 +24,10 @@ impl MyHashMap {
         if bucket.is_none() {
             *bucket = Some(Vec::new());
         }
-        let result = bucket.as_ref().unwrap().binary_search_by(|(k, _)| k.cmp(&key));
+        let result = bucket
+            .as_ref()
+            .unwrap()
+            .binary_search_by(|(k, _)| k.cmp(&key));
         (bucket.as_mut().unwrap(), result)
     }
 
@@ -37,9 +41,13 @@ impl MyHashMap {
     pub fn get(&self, key: i32) -> i32 {
         let bucket = &self.buckets[Self::hash(key)];
         if bucket.is_none() {
-            - 1
+            -1
         } else {
-            match bucket.as_ref().unwrap().binary_search_by(|(k, _)| k.cmp(&key)) {
+            match bucket
+                .as_ref()
+                .unwrap()
+                .binary_search_by(|(k, _)| k.cmp(&key))
+            {
                 Ok(idx) => bucket.as_ref().unwrap()[idx].1,
                 Err(_) => -1,
             }
@@ -47,9 +55,8 @@ impl MyHashMap {
     }
 
     pub fn remove(&mut self, key: i32) {
-        match self.index_in_bucket(key) {
-            (bucket, Ok(idx)) => { bucket.remove(idx); }
-            _ => (),
+        if let (bucket, Ok(idx)) = self.index_in_bucket(key) {
+            bucket.remove(idx);
         }
     }
 }

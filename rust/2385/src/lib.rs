@@ -1,3 +1,5 @@
+#![allow(clippy::map_entry)]
+
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
 use std::rc::Rc;

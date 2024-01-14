@@ -2,10 +2,7 @@ pub struct Solution;
 
 impl Solution {
     pub fn halves_are_alike(s: String) -> bool {
-        let filter = |c| match c {
-            'a' | 'A' | 'e' | 'E' | 'i' | 'I' | 'o' | 'O' | 'u' | 'U' => true,
-            _ => false,
-        };
+        let filter = |c| matches!(c, 'a' | 'A' | 'e' | 'E' | 'i' | 'I' | 'o' | 'O' | 'u' | 'U');
 
         s.chars().take(s.len() / 2).filter(|c| filter(*c)).count()
             == s.chars().skip(s.len() / 2).filter(|c| filter(*c)).count()

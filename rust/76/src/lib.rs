@@ -2,54 +2,41 @@ pub struct Solution;
 
 impl Solution {
     pub fn min_window(s: String, t: String) -> String {
-        if s.len() < t.len() {
-            return "".to_string();
-        }
-
+        let sb = s.as_bytes();
+        let mut t_len = t.len();
         let mut left = 0;
         let mut right = 0;
-        let mut t_map = std::collections::HashMap::new();
+        let mut counts = [0; (b'z' - b'A') as usize + 1];
+        let mut win = None;
 
-        t.bytes().for_each(|c| {
-            *t_map.entry(c).or_insert(0) += 1;
-        });
+        macro_rules! counts {
+            [$i:expr] => {
+                counts[($i - b'A') as usize]
+            };
+        }
 
-        let s = s.as_bytes();
-        let mut s_map = std::collections::HashMap::new();
-        let mut min = (0, s.len() as i32 + 1);
+        t.bytes().for_each(|b| counts![b] += 1);
 
-        while left < s.len() as i32 && right < s.len() as i32 {
-            while right < s.len() as i32 && !map_contains(&s_map, &t_map) {
-                *s_map.entry(s[right as usize]).or_insert(0) += 1;
-                right += 1;
+        while right < s.len() {
+            if counts![sb[right]] > 0 {
+                t_len -= 1;
             }
-
-            while left < s.len() as i32 && map_contains(&s_map, &t_map) {
-                *s_map.entry(s[left as usize]).or_insert(0) -= 1;
+            counts![sb[right]] -= 1;
+            right += 1;
+            while t_len == 0 {
+                if right - left < win.map_or(std::usize::MAX, |(left, right)| right - left) {
+                    win = Some((left, right));
+                }
+                counts![sb[left]] += 1;
+                if counts![sb[left]] > 0 {
+                    t_len += 1;
+                }
                 left += 1;
             }
-
-            if right - (left - 1) < min.1 - min.0 {
-                min = (left - 1, right);
-            }
         }
 
-        if min.1 - min.0 == s.len() as i32 + 1 {
-            "".to_string()
-        } else {
-            let min = (min.0 as usize, min.1 as usize);
-            s[min.0..min.1].iter().map(|&c| c as char).collect()
-        }
+        win.map_or("".into(), |(left, right)| s[left..right].into())
     }
-}
-
-fn map_contains(
-    left: &std::collections::HashMap<u8, i32>,
-    right: &std::collections::HashMap<u8, i32>,
-) -> bool {
-    right
-        .iter()
-        .all(|(k, v)| left.get(k).map_or(false, |x| x >= v))
 }
 
 #[cfg(test)]
